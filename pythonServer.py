@@ -1,8 +1,10 @@
 import http.server
 import socketserver
 from io import BytesIO
+import json
 
 PORT = 8000
+orders = []
 #Handler = http.server.SimpleHTTPRequestHandler
 
 class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
@@ -22,6 +24,8 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         response.write(b'Received: ')
         response.write(body)
         self.wfile.write(response.getvalue())
+        cur_j = json.loads(body)
+        orders[cur_j["user_id"]] = [cur_j["usd"],cur_j["energy"]]
 
 with socketserver.TCPServer(("", PORT), SimpleHTTPRequestHandler) as httpd:
     print("serving at port", PORT)
