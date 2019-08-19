@@ -4,7 +4,7 @@ from io import BytesIO
 import json
 
 PORT = 8000
-orders = []
+orders = {}
 #Handler = http.server.SimpleHTTPRequestHandler
 
 class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
@@ -12,7 +12,9 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
         self.end_headers()
-        self.wfile.write(b'Hello, world!')
+        response = BytesIO()
+        response.write(orders)
+        self.wfile.write(response.getvalue())
 
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
@@ -25,6 +27,7 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         response.write(body)
         self.wfile.write(response.getvalue())
         cur_j = json.loads(body)
+        print(cur_j)
         orders[cur_j["user_id"]] = [cur_j["usd"],cur_j["energy"]]
 
 with socketserver.TCPServer(("", PORT), SimpleHTTPRequestHandler) as httpd:
