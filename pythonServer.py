@@ -13,8 +13,23 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
         response = BytesIO()
-        response.write(orders)
+        b = json.dumps(orders).encode('utf-8')
+        response.write(b)
         self.wfile.write(response.getvalue())
+
+    def do_DELETE(self):
+        self.send_response(200)
+        self.end_headers()
+        content_length = int(self.headers['Content-Length'])
+        body = self.rfile.read(content_length)
+        response = BytesIO()
+        response.write(b'This is DELETE request. ')
+        response.write(body)
+        self.wfile.write(response.getvalue())
+        cur_j = json.loads(body)
+        print(cur_j)
+        if cur_j["user_id"] in orders:
+           del orders[cur_j["user_id"]]
 
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
