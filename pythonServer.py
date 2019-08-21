@@ -43,7 +43,7 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         self.wfile.write(response.getvalue())
         cur_j = json.loads(body)
         print(cur_j)
-        orders[cur_j["user_id"]] = [cur_j["usd"],cur_j["energy"]]
+        orders[cur_j["user_id"]] = [cur_j["energy"],cur_j["usd"]]
 
 with socketserver.TCPServer(("", PORT), SimpleHTTPRequestHandler) as httpd:
     print("serving at port", PORT)
