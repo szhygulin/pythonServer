@@ -12,10 +12,8 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
         self.end_headers()
-        response = BytesIO()
-        b = json.dumps(orders).encode('utf-8')
-        response.write(b)
-        self.wfile.write(response.getvalue())
+        b = json.dumps(orders)
+        self.wfile.write(b)
 
     def do_DELETE(self):
         self.send_response(200)
