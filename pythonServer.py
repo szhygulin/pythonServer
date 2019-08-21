@@ -14,15 +14,17 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
         self.end_headers()
-        content_length = int(self.headers['Content-Length'])
-        body = self.rfile.read(content_length)
-        cur = str(body)
-        if cur == 'cc_price':
-           b = json.dumps({'cc_price': cc_price})
-        elif cur == 'orders':
-           b = json.dumps(orders)
-        elif cur == 'current_epoch':
-           b = json.dumps({'current_epoch': current_epoch})
+        #content_length = int(self.headers['Content-Length'])
+        #body = self.rfile.read(content_length)
+        #cur = str(body)
+        #if cur == 'cc_price':
+        dict_obj = {}
+        dict_obj['cc_price'] = cc_price
+        dict_obj['orders'] = orders
+        #elif cur == 'orders':
+        dict_obj['current_epoch'] = current_epoch
+        #elif cur == 'current_epoch':
+        b = json.dumps(dict_obj)
         self.wfile.write(b)
 
     def do_DELETE(self):
