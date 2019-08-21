@@ -42,6 +42,8 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
            del orders[cur_j["user_id"]]
 
     def do_POST(self):
+        global current_epoch
+        global cc_price
         content_length = int(self.headers['Content-Length'])
         body = self.rfile.read(content_length)
         self.send_response(200)
