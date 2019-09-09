@@ -27,6 +27,7 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         dict_obj['current_epoch_votes'] = current_epoch_votes
         #elif cur == 'current_epoch':
         b = json.dumps(dict_obj).encode('utf-8')
+        print("Current data: \n <<<", dict_obj)
         self.wfile.write(b)
 
     def do_DELETE(self):
